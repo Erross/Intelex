@@ -9,7 +9,6 @@ password ='$(GIMSPASSWORD)'
 recordNumber = urllib.parse.quote('')
 objectname ='MonCusComplaint_CustomComplaintObject'
 
-
 MyAuth = (username, password)
 url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/' + objectname + "?$filter=RecordNumber eq " + recordNumber
 response = get(url, auth=MyAuth)
