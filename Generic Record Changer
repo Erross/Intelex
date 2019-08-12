@@ -1,5 +1,5 @@
 #Find Validity Value
-GIMSENVIRONMENT = 'https://clients.intelex.com/Login3/Monsanto/'
+GIMSENVIRONMENT = $(GIMSENVIRONMENT)'
 def ILXChange(referenceObject, referencePropertyName, referencePropertyValue, objectName, systemName):
     try:
         objectname = referenceObject

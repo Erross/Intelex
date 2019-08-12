@@ -3,7 +3,7 @@ from requests import patch
 import urllib
 import json
 from requests import post
-GIMSENVIRONMENT = 'https://clients.intelex.com/Login3/Monsanto/'
+GIMSENVIRONMENT = $(GIMSENVIRONMENT)'
 username ='$(GIMSUSERNAME)'
 password ='$(GIMSPASSWORD)'
 recordNumber = urllib.parse.quote('2')

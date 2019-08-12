@@ -5,7 +5,7 @@ import json
 from requests import patch
 ### This whole thing is a sequential set of calls to move a complaint along and close it for being non supply chain for NAPPI workflow - it needs to be functionified and made pretty)
 #Credentials
-GIMSENVIRONMENT = 'https://clients.intelex.com/Login3/Monsanto/'
+GIMSENVIRONMENT = $(GIMSENVIRONMENT)'
 username ='$(GIMSUSERNAME)'
 password ='$(GIMSPASSWORD)'
 #Record Details and GIMS object

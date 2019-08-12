@@ -1,6 +1,6 @@
 from requests import get
 import urllib
-GIMSENVIRONMENT = 'https://clients.intelex.com/Login3/Monsanto/'
+GIMSENVIRONMENT = $(GIMSENVIRONMENT)'
 username ='$(GIMSUSERNAME)'
 password ='$(GIMSPASSWORD)'
 recordNumber = urllib.parse.quote('2')

@@ -6,7 +6,7 @@ from requests import post
 
 username ='$(GIMSUSERNAME)'
 password ='$(GIMSPASSWORD)'
-GIMSENVIRONMENT = 'https://clients.intelex.com/Login3/Monsanto/'''#enter your environment prod/test etc
+GIMSENVIRONMENT = $(GIMSENVIRONMENT)#enter your environment prod/test etc
 recordNumber = urllib.parse.quote('2')
 objectname ='MonCusComplaint_CustomComplaintObject'
 
