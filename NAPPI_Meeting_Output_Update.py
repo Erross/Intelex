@@ -43,7 +43,6 @@ def ILXChange(referenceObject, referencePropertyName, referencePropertyValue, ob
         response = patch(url, Body, params=params, headers=myHeaders, auth=MyAuth)
         return(response)
     except:
-        print('failed to change ' + objectName)
         return ('Failed to change ' + objectname)
 
 
@@ -61,7 +60,6 @@ def ILXDirectChange(objectName,systemName,stringInput):
 
         response = patch(url, Body, params = params,headers=myHeaders, auth=MyAuth)
     except:
-        print('failed to change ' + objectName)
         return('Failed to change '+ objectname)
 
 ###This whole thing needs to write
@@ -131,7 +129,8 @@ ILXChange('MonCusComplaint_MonCompSubCat12Object', 'ComSubCategory2', '$(CSS2)',
 ILXChange('SysLocationEntity', 'LocationCode', '$(Responsible Site)', 'MonCusComplaint_CustomComplaintObject', 'ResponsibleSite') #verified in test
 #change CCL
 ILXChange('SysLocationEntity', 'LocationCode', '$(CCL)', 'MonCusComplaint_CustomComplaintObject', 'CoordinLocation') #verified in test
-
+#change country
+ILXChange('MonAudit_MonsantoCountryObject', 'Caption', '$(Country)', 'MonCusComplaint_CustomComplaintObject', 'CCCountry')
 #change Response to initiator
 #THIS ONE CANT USE ILXCHANGE AS IT IS A DIRECT EDIT AND NOT THE ODATA DEPENDENT
 
