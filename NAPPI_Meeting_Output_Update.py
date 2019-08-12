@@ -18,7 +18,7 @@ MyAuth = (username, password)
 def ILXChange(referenceObject, referencePropertyName, referencePropertyValue, objectName, systemName):
     try:
         objectname = referenceObject
-        url = GIMSENVIRONMENT+'api/v2/object/' + objectname
+        url = GIMSENVIRONMENT+'api/v2/object/' + objectname +'?$filter='+referencePropertyName+' eq '+"'"+referencePropertyValue+"'"
         response = get(url, auth=MyAuth)
         x = (response.json())
         y = x['value']
@@ -27,24 +27,25 @@ def ILXChange(referenceObject, referencePropertyName, referencePropertyValue, ob
                 odataLink = a['@odata.editLink']
     except:
         print('failed to get object link for ' + referencePropertyName + " " + referencePropertyValue)
-
-    #Change Validity
+        return('Failed to get object link for'  + referencePropertyName + " " + referencePropertyValue)
 
     try:
         objectname = objectName
-        url = GIMSENVIRONMENT+'api/v2/object/'+objectname+'('+objId+')'
+        url = GIMSENVIRONMENT + 'api/v2/object/' + objectname + '(' + objId + ')'
         Body = {}
-        bodyName = systemName+"@odata.bind"
+        bodyName = systemName + "@odata.bind"
         Body[bodyName] = odataLink
         Body = json.dumps(Body)
-        myHeaders = {} #initiate headers
-        myHeaders['content-type'] = 'application/json' #build headers
-        params = {'Description': 'string'} #build params
+        myHeaders = {}  # initiate headers
+        myHeaders['content-type'] = 'application/json'  # build headers
+        params = {'Description': 'string'}  # build params
 
-        response = patch(url, Body, params = params,headers=myHeaders, auth=MyAuth)
+        response = patch(url, Body, params=params, headers=myHeaders, auth=MyAuth)
+        return(response)
     except:
         print('failed to change ' + objectName)
-        return('Failed to change '+ objectname)
+        return ('Failed to change ' + objectname)
+
 
 def ILXDirectChange(objectName,systemName,stringInput):
     try:
@@ -79,6 +80,11 @@ def ILXDirectChange(objectName,systemName,stringInput):
 #Response to Init
 #get object ID for the RECORD
 
+ #Change Validity
+
+
+
+
 try:
     url = GIMSENVIRONMENT+'api/v2/object/' + objectname + "?$filter=RecordNumber eq "+ recordNumber
     response = get(url, auth=MyAuth)
@@ -108,32 +114,32 @@ try:
 except:
     print('failed to save and instigate investigation')
 #VALIDITY
-ILXChange('MonCusComplaint_MonValidityObject', 'Caption', '$(Validity)', 'MonCusComplaint_CustomComplaintObject', 'Validity@odata.bind')
+ILXChange('MonCusComplaint_MonValidityObject', 'Caption', '$(Validity)', 'MonCusComplaint_CustomComplaintObject', 'Validity') #verified in test
 #ILXChange(referenceObject, referencePropertyName, referencePropertyValue, objectName, systemName)
-ILXChange('MonCusComplaint_MonFunctionObject', 'ImportKey', '$(FunctionKey)', 'MonCusComplaint_CustomComplaintObject', 'Function@odata.bind')
+ILXChange('SyConfiguration_MonsantFunctionObject', 'ImportKey', '$(FunctionKey)', 'MonCusComplaint_CustomComplaintObject', 'Function') #verified in test
 #Change Process
-ILXChange('SyConfiguration_MonsantoProcessObject', 'ImportKey', '$(ProcessKey)', 'MonCusComplaint_CustomComplaintObject', 'Process@odata.bind')
+ILXChange('SyConfiguration_MonsantoProcessObject', 'ImportKey', '$(ProcessKey)', 'MonCusComplaint_CustomComplaintObject', 'Process') #verified in test
 #Change Complaint Category
-ILXChange('MonCusComplaint_ComplaiCategoryObject', 'Value', '$(ComplaintCategory)', 'MonCusComplaint_CustomComplaintObject', 'ComplaiCategory@odata.bind')
+ILXChange('MonCusComplaint_ComplaiCategoryObject', 'Value', '$(ComplaintCategory)', 'MonCusComplaint_CustomComplaintObject', 'ComplaiCategory') #verified in test - must be the code ie PERF_ENV
 #Change CS1
-ILXChange('MonCusComplaint_MonCatSubCat1Object', 'ComSubCategory1', '$(CSS1)', 'MonCusComplaint_CustomComplaintObject', 'ComSubCategory1@odata.bind')
+ILXChange('MonCusComplaint_MonCatSubCat1Object', 'ComSubCategory1', '$(CSS1)', 'MonCusComplaint_CustomComplaintObject', 'ComSubCategory1') #verified in test - not code but full thing (may need to change above to match...)
 #Change CS2
-ILXChange('MonCusComplaint_MonCompSubCat12Object', 'ComSubCategory2', '$(CSS2)', 'MonCusComplaint_CustomComplaintObject', 'ComSubCategory2@odata.bind')
+ILXChange('MonCusComplaint_MonCompSubCat12Object', 'ComSubCategory2', '$(CSS2)', 'MonCusComplaint_CustomComplaintObject', 'ComSubCategory2') #verified in test
 #Change Country
 #NEED TO ADD COUNTRYT TO LIST - DONT HAVE!!
 #Change Responsible Site
-ILXChange('SysLocationEntity', 'LocationCode', '$(Responsible Site)', 'MonCusComplaint_CustomComplaintObject', 'ResponsibleSite@odata.bind')
+ILXChange('SysLocationEntity', 'LocationCode', '$(Responsible Site)', 'MonCusComplaint_CustomComplaintObject', 'ResponsibleSite') #verified in test
 #change CCL
-ILXChange('SysLocationEntity', 'LocationCode', '$(CCL)', 'MonCusComplaint_CustomComplaintObject', 'CoordinLocation@odata.bind')
+ILXChange('SysLocationEntity', 'LocationCode', '$(CCL)', 'MonCusComplaint_CustomComplaintObject', 'CoordinLocation') #verified in test
 
 #change Response to initiator
 #THIS ONE CANT USE ILXCHANGE AS IT IS A DIRECT EDIT AND NOT THE ODATA DEPENDENT
 
-ILXDirectChange('MonCusComplaint_CustomComplaintObject',RetoInitiatedBy,'$(ResponseToInitiatedBy)')
+ILXDirectChange('MonCusComplaint_CustomComplaintObject','RetoInitiatedBy','$(ResponseToInitiatedBy)') #verified in test
 
 #change Investigation Detals
 
-ILXDirectChange('MonCusComplaint_CustomComplaintObject',InvestigDetails,'$(InvestigationDetails)')
+ILXDirectChange('MonCusComplaint_CustomComplaintObject','InvestigDetails','$(InvestigationDetails)') #verified in test
 
 
 
