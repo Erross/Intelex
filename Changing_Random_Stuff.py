@@ -3,7 +3,7 @@ from requests import patch
 import urllib
 import json
 from requests import post
-
+GIMSENVIRONMENT = 'https://clients.intelex.com/Login3/Monsanto/'
 username ='$(GIMSUSERNAME)'
 password ='$(GIMSPASSWORD)'
 recordNumber = urllib.parse.quote('2')
@@ -11,7 +11,7 @@ objectname ='MonCusComplaint_CustomComplaintObject' #for different objects this 
 
 
 MyAuth = (username, password)
-url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/' + objectname + "?$filter=RecordNumber eq "+ recordNumber #filters can change here - admin can see system names of properties
+url = GIMSENVIRONMENT+'api/v2/object/' + objectname + "?$filter=RecordNumber eq "+ recordNumber #filters can change here - admin can see system names of properties
 response = get(url, auth=MyAuth)
 x = (response.json())
 
@@ -22,9 +22,9 @@ fullid = z['@odata.id'] #get the start of the value (needs more parsing)
 fullid_split = fullid.split("(") #Split string part the first
 objId = fullid_split[1].split(")")[0] #split string part the second
 
-url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/'+objectname+'('+objId+')'
+url = GIMSENVIRONMENT+'api/v2/object/'+objectname+'('+objId+')'
 Body = {}
-Body['ComSubCategory1@odata.bind'] ='https://clients.intelex.com/Login3/Monsanto/api/v2/object/MonCusComplaint_MonCatSubCat1Object(8c69d243-f5db-4151-b811-bf7aad790082)' #example here changes the sub catefory 1 to an object identified through another script
+Body['ComSubCategory1@odata.bind'] =GIMSENVIRONMENT+'api/v2/object/MonCusComplaint_MonCatSubCat1Object(8c69d243-f5db-4151-b811-bf7aad790082)' #example here changes the sub catefory 1 to an object identified through another script
 #8c69d243-f5db-4151-b811-bf7aad790082
 
 Body = json.dumps(Body)

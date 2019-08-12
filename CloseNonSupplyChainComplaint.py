@@ -5,6 +5,7 @@ import json
 from requests import patch
 ### This whole thing is a sequential set of calls to move a complaint along and close it for being non supply chain for NAPPI workflow - it needs to be functionified and made pretty)
 #Credentials
+GIMSENVIRONMENT = 'https://clients.intelex.com/Login3/Monsanto/'
 username ='$(GIMSUSERNAME)'
 password ='$(GIMSPASSWORD)'
 #Record Details and GIMS object
@@ -16,7 +17,7 @@ processKey = 'ResearchBreedingSupply ChainRow Crop'
 
 #get object ID
 try:
-    url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/' + objectname + "?$filter=RecordNumber eq "+ recordNumber
+    url = GIMSENVIRONMENT+'api/v2/object/' + objectname + "?$filter=RecordNumber eq "+ recordNumber
     response = get(url, auth=MyAuth)
     x = (response.json())
 
@@ -31,7 +32,7 @@ except:
 
 #Get available action status for save and Submit Complaint
 try:
-    url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/'+objectname+'('+objId+')/Workflow/CurrentStage/Actions'
+    url = GIMSENVIRONMENT+'api/v2/object/'+objectname+'('+objId+')/Workflow/CurrentStage/Actions'
     response = get(url, auth=MyAuth)
     x = response.json()
 
@@ -45,7 +46,7 @@ except:
 #Save and Submit complaint
 
 try:
-    url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/'+objectname+'('+objId+')/Workflow/CurrentStage/Actions('+odataID+')/Action.ExecuteStageAction'
+    url = GIMSENVIRONMENT+'api/v2/object/'+objectname+'('+objId+')/Workflow/CurrentStage/Actions('+odataID+')/Action.ExecuteStageAction'
 
     response = post(url, auth=MyAuth)
 except:
@@ -55,7 +56,7 @@ except:
 
 try:
     objectname ='MonCusComplaint_MonValidityObject'
-    url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/' + objectname
+    url = GIMSENVIRONMENT+'api/v2/object/' + objectname
     response = get(url, auth=MyAuth)
     x = (response.json())
     y = x['value']
@@ -74,7 +75,7 @@ except:
 try:
     objectname = 'MonCusComplaint_CustomComplaintObject'
 
-    url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/'+objectname+'('+objId+')'
+    url = GIMSENVIRONMENT+'api/v2/object/'+objectname+'('+objId+')'
     Body = {}
     Body['Validity@odata.bind'] = odataLink
     Body = json.dumps(Body)
@@ -91,7 +92,7 @@ except:
 
 try:
     objectname ='SyConfiguration_MonsantFunctionObject'
-    url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/' + objectname
+    url = GIMSENVIRONMENT+'api/v2/object/' + objectname
     response = get(url, auth=MyAuth)
     x = (response.json())
     y = x['value']
@@ -105,7 +106,7 @@ except:
 try:
     objectname = 'MonCusComplaint_CustomComplaintObject'
 
-    url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/'+objectname+'('+objId+')'
+    url = GIMSENVIRONMENT+'api/v2/object/'+objectname+'('+objId+')'
     Body = {}
     Body['Function@odata.bind'] = fxnodataLink
     Body = json.dumps(Body)
@@ -122,7 +123,7 @@ except:
 try:
     objectname ='SyConfiguration_MonsantoProcessObject'
     print('a')
-    url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/' + objectname + "?$filter=ImportKey eq '" +processKey +"'" #this too needs to be the thing
+    url = GIMSENVIRONMENT+'api/v2/object/' + objectname + "?$filter=ImportKey eq '" +processKey +"'" #this too needs to be the thing
     print('a')
     response = get(url, auth=MyAuth)
     print('a')
@@ -141,7 +142,7 @@ except:
 try:
     objectname = 'MonCusComplaint_CustomComplaintObject'
 
-    url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/'+objectname+'('+objId+')'
+    url = GIMSENVIRONMENT+'api/v2/object/'+objectname+'('+objId+')'
     Body = {}
     Body['Process@odata.bind'] = prcodataLink
     Body = json.dumps(Body)
@@ -165,7 +166,7 @@ except:
 
 
 try:
-    url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/'+objectname+'('+objId+')/Workflow/CurrentStage/Actions'
+    url = GIMSENVIRONMENT+'api/v2/object/'+objectname+'('+objId+')/Workflow/CurrentStage/Actions'
     response = get(url, auth=MyAuth)
     x = response.json()
 
@@ -179,7 +180,7 @@ except:
     print('failed to get odataID2')
 
 try:
-    url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/'+objectname+'('+objId+')/Workflow/CurrentStage/Actions('+odataID2+')/Action.ExecuteStageAction'
+    url = GIMSENVIRONMENT+'api/v2/object/'+objectname+'('+objId+')/Workflow/CurrentStage/Actions('+odataID2+')/Action.ExecuteStageAction'
 
     response = post(url, auth=MyAuth)
 except:

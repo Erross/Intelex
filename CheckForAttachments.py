@@ -1,6 +1,6 @@
 from requests import get
 import urllib
-
+GIMSENVIRONMENT = 'https://clients.intelex.com/Login3/Monsanto/'
 username ='$(GIMSUSERNAME)'
 password ='$(GIMSPASSWORD)'
 recordNumber = urllib.parse.quote('2')
@@ -10,7 +10,7 @@ objectname ='MonCusComplaint_CustomComplaintObject' #change if hitting different
 MyAuth = (username, password)
 
 #part 1 - Obtain object ID for the complaint object
-url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/' + objectname + "?$filter=RecordNumber eq "+recordNumber
+url = GIMSENVIRONMENT+'api/v2/object/' + objectname + "?$filter=RecordNumber eq "+recordNumber
 response = get(url, auth=MyAuth)
 x = (response.json())
 
@@ -21,7 +21,7 @@ fullid = z['@odata.id']  # get the start of the value (needs more parsing)
 fullid_split = fullid.split("(")  # Split string part the first
 objId = fullid_split[1].split(")")[0]  # split string part the second
 
-url = 'https://clients.intelex.com/Login3/Monsanto/api/v2/object/' + objectname + "("+objId+")/ILX.Attachments" #returns attachments details if any exist
+url = GIMSENVIRONMENT+'api/v2/object/' + objectname + "("+objId+")/ILX.Attachments" #returns attachments details if any exist
 
 response = get(url,auth=MyAuth)
 x = (response.json())

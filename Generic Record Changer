@@ -1,0 +1,32 @@
+#Find Validity Value
+GIMSENVIRONMENT = 'https://clients.intelex.com/Login3/Monsanto/'
+def ILXChange(referenceObject, referencePropertyName, referencePropertyValue, objectName, systemName):
+    try:
+        objectname = referenceObject
+        url = GIMSENVIRONMENT+'api/v2/object/' + objectname
+        response = get(url, auth=MyAuth)
+        x = (response.json())
+        y = x['value']
+        for a in y:
+            if a[referencePropertyName] == referencePropertyValue:
+                odataLink = a['@odata.editLink']
+    except:
+        print('failed to get object link for ' + referencePropertyName + " " + referencePropertyValue)
+
+    #Change Validity
+
+    try:
+        objectname = objectName
+        url = GIMSENVIRONMENT+'api/v2/object/'+objectname+'('+objId+')'
+        Body = {}
+        bodyName = systemName+"@odata.bind"
+        Body[bodyName] = odataLink
+        Body = json.dumps(Body)
+        myHeaders = {} #initiate headers
+        myHeaders['content-type'] = 'application/json' #build headers
+        params = {'Description': 'string'} #build params
+
+        response = patch(url, Body, params = params,headers=myHeaders, auth=MyAuth)
+    except:
+        print('failed to change ' + objectName)
+        return('Failed to change '+ objectname)
