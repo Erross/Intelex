@@ -1,6 +1,6 @@
 from requests import get
 import urllib
-GIMSENVIRONMENT = $(GIMSENVIRONMENT)'
+GIMSENVIRONMENT = '$(GIMSENVIRONMENT)'
 username ='$(GIMSUSERNAME)'
 password ='$(GIMSPASSWORD)'
 recordNumber = urllib.parse.quote('2')

@@ -7,7 +7,7 @@ from requests import patch
 #Credentials
 username ='$(GIMSUSERNAME)'
 password ='$(GIMSPASSWORD)'
-GIMSENVIRONMENT = $(GIMSENVIRONMENT)'
+GIMSENVIRONMENT = '$(GIMSENVIRONMENT)'
 #Record Details and GIMS object
 recordNumber = urllib.parse.quote('$(recordnumber)')
 objectname ='MonCusComplaint_CustomComplaintObject'
